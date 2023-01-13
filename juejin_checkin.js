@@ -52,6 +52,24 @@ class CheckIn {
     const juejin = new JuejinHelper();
     try {
       await juejin.login(this.cookie);
+      // 模拟用户活跃度开始 解决无活跃封禁问题
+      await browser.open();
+
+        try {
+            await browser.visitPage("/");
+            console.log("掘金首页：页面访问成功");
+        } catch (e) {
+            console.log("掘金首页：页面访问失败");
+        }
+
+        try {
+            await browser.visitPage("/user/center/signin");
+            console.log("掘金每日签到：页面访问成功");
+        } catch (e) {
+            console.log("掘金每日签到：页面访问失败");
+        }
+        await browser.close();
+        // 模拟用户活跃度结束
     } catch (e) {
       console.error(e);
       throw new Error("登录失败, 请尝试更新Cookies!");
